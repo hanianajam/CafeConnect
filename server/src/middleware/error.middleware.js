@@ -1,16 +1,15 @@
-const errorHandler = (
-    err,
-    req,
-    res,
-    next
-) => {
+const sendResponse = require("../utils/response");
+
+const errorHandler = (err, req, res, next) => {
 
     console.error(err);
 
-    res.status(500).json({
-        success: false,
-        message: "Internal Server Error"
-    });
+    return sendResponse(
+        res,
+        err.statusCode || 500,
+        false,
+        err.message || "Internal Server Error."
+    );
 
 };
 
