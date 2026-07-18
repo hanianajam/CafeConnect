@@ -1,0 +1,187 @@
+const productService = require("./product.service");
+const sendResponse = require("../../utils/response");
+const asyncHandler = require("../../utils/asyncHandler");
+const { validationResult } = require("express-validator");
+const MESSAGES = require("../../constants/messages");
+
+const getAllProducts = asyncHandler(async (req, res) => {
+
+    const products = await productService.getAllProducts();
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        MESSAGES.PRODUCT.FETCHED_ALL,
+        products
+    );
+
+});
+
+const getProductById = asyncHandler(async (req, res) => {
+
+    const product = await productService.getProductById(req.params.id);
+
+    if (!product) {
+
+        return sendResponse(
+            res,
+            404,
+            false,
+            MESSAGES.PRODUCT.NOT_FOUND
+        );
+
+    }
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        MESSAGES.PRODUCT.FETCHED,
+        product
+    );
+
+});
+
+const getProductsByCategory = asyncHandler(async (req, res) => {
+
+    const products = await productService.getProductsByCategory(
+        req.params.categoryId
+    );
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        MESSAGES.PRODUCT.FETCHED_ALL,
+        products
+    );
+
+});
+
+const getFeaturedProducts = asyncHandler(async (req, res) => {
+
+    const products = await productService.getFeaturedProducts();
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        MESSAGES.PRODUCT.FETCHED_ALL,
+        products
+    );
+
+});
+
+const searchProducts = asyncHandler(async (req, res) => {
+
+    const products = await productService.searchProducts(req.query.q);
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        MESSAGES.PRODUCT.FETCHED_ALL,
+        products
+    );
+
+});
+
+const createProduct = asyncHandler(async (req, res) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+        return sendResponse(
+            res,
+            400,
+            false,
+            MESSAGES.COMMON.VALIDATION_FAILED,
+            errors.array()
+        );
+
+    }
+
+    const id = await productService.createProduct(req.body);
+
+    return sendResponse(
+        res,
+        201,
+        true,
+        MESSAGES.PRODUCT.CREATED,
+        { id }
+    );
+
+});
+
+const updateProduct = asyncHandler(async (req, res) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+        return sendResponse(
+            res,
+            400,
+            false,
+            MESSAGES.COMMON.VALIDATION_FAILED,
+            errors.array()
+        );
+
+    }
+
+    await productService.updateProduct(
+        req.params.id,
+        req.body
+    );
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        MESSAGES.PRODUCT.UPDATED
+    );
+
+});
+
+const updateProductStatus = asyncHandler(async (req, res) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+        return sendResponse(
+            res,
+            400,
+            false,
+            MESSAGES.COMMON.VALIDATION_FAILED,
+            errors.array()
+        );
+
+    }
+
+    await productService.updateProductStatus(
+        req.params.id,
+        req.body.is_available
+    );
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        MESSAGES.PRODUCT.STATUS_UPDATED
+    );
+
+});
+
+module.exports = {
+    getAllProducts,
+    getProductById,
+    getProductsByCategory,
+    getFeaturedProducts,
+    searchProducts,
+    createProduct,
+    updateProduct,
+    updateProductStatus
+};

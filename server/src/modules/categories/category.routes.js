@@ -2,11 +2,11 @@ const express = require("express");
 
 const router = express.Router();
 
-const controller = require("./categories.controller");
+const controller = require("./category.controller");
 
 const {
     categoryValidation
-} = require("./categories.validation");
+} = require("./category.validation");
 
 const authenticate = require("../../middleware/auth.middleware");
 const authorize = require("../../middleware/role.middleware");

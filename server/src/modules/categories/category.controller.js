@@ -1,4 +1,4 @@
-const categoryService = require("./categories.service");
+const categoryService = require("./category.service");
 const sendResponse = require("../../utils/response");
 const asyncHandler = require("../../utils/asyncHandler");
 const { validationResult } = require("express-validator");

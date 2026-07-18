@@ -13,6 +13,15 @@ const MESSAGES = {
         NOT_FOUND: "Category not found."
     },
 
+    PRODUCT: {
+    FETCHED: "Product fetched successfully.",
+    FETCHED_ALL: "Products fetched successfully.",
+    CREATED: "Product created successfully.",
+    UPDATED: "Product updated successfully.",
+    STATUS_UPDATED: "Product status updated successfully.",
+    NOT_FOUND: "Product not found."
+    },
+
     COMMON: {
         SERVER_ERROR: "Internal Server Error.",
         VALIDATION_FAILED: "Validation failed."
