@@ -3,6 +3,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
+const routes = require("./routes");
+
 const app = express();
 
 app.use(cors());
@@ -10,11 +12,6 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 
-app.get("/api/health", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "CafeConnect API is running 🚀",
-  });
-});
+app.use("/api", routes);
 
 module.exports = app;
