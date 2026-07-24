@@ -1,79 +1,79 @@
 const { validationResult } = require("express-validator");
-const authService = require("./auth.service");
-const sendResponse = require("../../utils/response");
 
-const login = async (req, res) => {
+const authService = require("./auth.service");
+
+const sendResponse = require("../../utils/response");
+const asyncHandler = require("../../utils/asyncHandler");
+const MESSAGES = require("../../constants/messages");
+
+const login = asyncHandler(async (req, res) => {
+
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+
         return sendResponse(
             res,
             400,
             false,
-            "Validation failed",
+            MESSAGES.COMMON.VALIDATION_FAILED,
             errors.array()
         );
+
     }
 
-    try {
+    const { email, password } = req.body;
 
-        const { email, password } = req.body;
+    const result = await authService.login(
+        email,
+        password
+    );
 
-        const result = await authService.login(email, password);
-
-        if (result === null) {
-            return sendResponse(res,404,false,"User not found");
-        }
-
-        if (result === false) {
-            return sendResponse(res,401,false,"Invalid password");
-        }
+    if (!result) {
 
         return sendResponse(
             res,
-            200,
-            true,
-            "Login successful",
-            result
-        );
-
-    } catch (error) {
-
-        return sendResponse(
-            res,
-            500,
+            401,
             false,
-            error.message
+            MESSAGES.AUTH.INVALID_CREDENTIALS
         );
 
     }
-
-};
-
-const profile = async (req,res)=>{
 
     return sendResponse(
         res,
         200,
         true,
-        "Profile fetched successfully",
+        MESSAGES.AUTH.LOGIN_SUCCESS,
+        result
+    );
+
+});
+
+const profile = asyncHandler(async (req, res) => {
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        MESSAGES.AUTH.PROFILE_FETCHED,
         req.user
     );
 
-};
+});
 
-const logout = async(req,res)=>{
+const logout = asyncHandler(async (req, res) => {
 
     return sendResponse(
         res,
         200,
         true,
-        "Logout successful"
+        MESSAGES.AUTH.LOGOUT_SUCCESS
     );
 
-};
+});
 
-module.exports={
+module.exports = {
     login,
     profile,
     logout
