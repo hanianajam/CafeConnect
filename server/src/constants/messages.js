@@ -45,6 +45,13 @@ const MESSAGES = {
     CREATED: "Order created successfully.",
     STATUS_UPDATED: "Order status updated successfully.",
     NOT_FOUND: "Order not found."
+    },
+
+    DASHBOARD: {
+    SUMMARY_FETCHED: "Dashboard summary fetched successfully.",
+    RECENT_ORDERS_FETCHED: "Recent orders fetched successfully.",
+    ORDER_STATUS_FETCHED: "Order status statistics fetched successfully.",
+    TOP_PRODUCTS_FETCHED: "Top products fetched successfully."
     }
 };
 
