@@ -52,6 +52,14 @@ const MESSAGES = {
     RECENT_ORDERS_FETCHED: "Recent orders fetched successfully.",
     ORDER_STATUS_FETCHED: "Order status statistics fetched successfully.",
     TOP_PRODUCTS_FETCHED: "Top products fetched successfully."
+    },
+
+    INGREDIENT: {
+    FETCHED_ALL: "Ingredients fetched successfully.",
+    FETCHED: "Ingredient fetched successfully.",
+    CREATED: "Ingredient created successfully.",
+    UPDATED: "Ingredient updated successfully.",
+    NOT_FOUND: "Ingredient not found."
     }
 };
 
