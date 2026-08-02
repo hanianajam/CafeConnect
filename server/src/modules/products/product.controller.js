@@ -163,7 +163,7 @@ const updateProductStatus = asyncHandler(async (req, res) => {
 
     await productService.updateProductStatus(
         req.params.id,
-        req.body.is_available
+        req.body.is_active
     );
 
     return sendResponse(

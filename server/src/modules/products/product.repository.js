@@ -9,17 +9,20 @@ const getAllProducts = async () => {
             p.name,
             p.description,
             p.price,
-            p.image_url,
-            p.preparation_time,
+            p.image,
+            p.prep_time,
             p.is_featured,
             p.display_order,
-            p.is_available,
+            p.availability,
+            p.is_active,
             c.id AS category_id,
             c.name AS category_name
         FROM products p
         JOIN categories c
             ON p.category_id = c.id
-        WHERE p.is_available = TRUE
+        WHERE
+            p.availability = 'available'
+            AND p.is_active = TRUE
         ORDER BY
             p.display_order ASC,
             p.name ASC
@@ -57,7 +60,8 @@ const getProductsByCategory = async (categoryId) => {
         FROM products
         WHERE
             category_id = ?
-            AND is_available = TRUE
+            AND availability = 'available'
+            AND is_active = TRUE
         ORDER BY display_order
         `,
         [categoryId]
@@ -75,7 +79,8 @@ const getFeaturedProducts = async () => {
         FROM products
         WHERE
             is_featured = TRUE
-            AND is_available = TRUE
+            AND availability = 'available'
+            AND is_active = TRUE
         ORDER BY display_order
         `
     );
@@ -91,7 +96,8 @@ const searchProducts = async (keyword) => {
         SELECT *
         FROM products
         WHERE
-            is_available = TRUE
+            availability = 'available'
+            AND is_active = TRUE
             AND (
                 name LIKE ?
                 OR description LIKE ?
@@ -112,10 +118,11 @@ const createProduct = async (product) => {
         name,
         description,
         price,
-        image_url,
-        preparation_time,
+        image,
+        prep_time,
         is_featured,
-        display_order
+        display_order,
+        availability
     } = product;
 
     const [result] = await db.query(
@@ -126,23 +133,25 @@ const createProduct = async (product) => {
             name,
             description,
             price,
-            image_url,
-            preparation_time,
+            image,
+            prep_time,
             is_featured,
-            display_order
+            display_order,
+            availability
         )
         VALUES
-        (?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `,
         [
             category_id,
             name,
             description,
             price,
-            image_url,
-            preparation_time,
+            image,
+            prep_time,
             is_featured,
-            display_order
+            display_order,
+            availability
         ]
     );
 
@@ -157,10 +166,11 @@ const updateProduct = async (id, product) => {
         name,
         description,
         price,
-        image_url,
-        preparation_time,
+        image,
+        prep_time,
         is_featured,
-        display_order
+        display_order,
+        availability
     } = product;
 
     await db.query(
@@ -171,10 +181,11 @@ const updateProduct = async (id, product) => {
             name = ?,
             description = ?,
             price = ?,
-            image_url = ?,
-            preparation_time = ?,
+            image = ?,
+            prep_time = ?,
             is_featured = ?,
-            display_order = ?
+            display_order = ?,
+            availability = ?
         WHERE id = ?
         `,
         [
@@ -182,25 +193,26 @@ const updateProduct = async (id, product) => {
             name,
             description,
             price,
-            image_url,
-            preparation_time,
+            image,
+            prep_time,
             is_featured,
             display_order,
+            availability,
             id
         ]
     );
 
 };
 
-const updateProductStatus = async (id, is_available) => {
+const updateProductStatus = async (id, is_active) => {
 
     await db.query(
         `
         UPDATE products
-        SET is_available = ?
+        SET is_active = ?
         WHERE id = ?
         `,
-        [is_available, id]
+        [is_active, id]
     );
 
 };

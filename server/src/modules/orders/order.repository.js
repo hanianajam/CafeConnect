@@ -27,6 +27,7 @@ const createOrder = async (orderData) => {
 
         let totalAmount = 0;
 
+        const productPrices = {};
         const orderNumber = await generateOrderNumber(connection);
 
         for (const item of items) {
@@ -36,7 +37,8 @@ const createOrder = async (orderData) => {
                 SELECT id, price
                 FROM products
                 WHERE id = ?
-                AND is_available = TRUE
+                AND availability = 'available'
+                AND is_active = TRUE
                 `,
                 [item.product_id]
             );
@@ -48,6 +50,7 @@ const createOrder = async (orderData) => {
             }
 
             const product = productRows[0];
+            productPrices[item.product_id] = product.price;
 
             totalAmount +=
                 Number(product.price) *
@@ -67,7 +70,7 @@ const createOrder = async (orderData) => {
             `,
             [
                 orderNumber,
-                customer_name || null,
+                customer_name ?? null,
                 totalAmount
             ]
         );
@@ -75,17 +78,7 @@ const createOrder = async (orderData) => {
         const orderId = orderResult.insertId;
 
         for (const item of items) {
-
-            const [productRows] = await connection.query(
-                `
-                SELECT price
-                FROM products
-                WHERE id = ?
-                `,
-                [item.product_id]
-            );
-
-            const price = productRows[0].price;
+          const price = productPrices[item.product_id];
 
             await connection.query(
                 `
@@ -104,7 +97,7 @@ const createOrder = async (orderData) => {
                     item.product_id,
                     item.quantity,
                     price,
-                    item.notes || null
+                    item.notes ?? null
                 ]
             );
 
@@ -212,7 +205,7 @@ const updateOrderStatus = async (
 
     return withTransaction(async (connection) => {
 
-        await connection.query(
+        const [result] = await connection.query(
             `
             UPDATE orders
             SET status = ?
@@ -223,6 +216,9 @@ const updateOrderStatus = async (
                 id
             ]
         );
+        if (result.affectedRows === 0) {
+         throw new Error("Order not found.");
+        }
 
         await connection.query(
             `

@@ -22,12 +22,12 @@ const createProductValidation = [
         .isFloat({ min: 0 })
         .withMessage("Valid price is required."),
 
-    body("image_url")
+    body("image")
         .optional({ nullable: true })
         .isString()
-        .withMessage("Image URL must be a string."),
+        .withMessage("Image must be a string."),
 
-    body("preparation_time")
+    body("prep_time")
         .isInt({ min: 1 })
         .withMessage("Preparation time must be at least 1 minute."),
 
@@ -39,7 +39,15 @@ const createProductValidation = [
     body("display_order")
         .optional()
         .isInt({ min: 0 })
-        .withMessage("Display order must be a positive number.")
+        .withMessage("Display order must be zero or greater."),
+
+    body("availability")
+        .optional()
+        .isIn([
+            "available",
+            "out_of_stock"
+        ])
+        .withMessage("Invalid availability.")
 
 ];
 
@@ -59,9 +67,9 @@ const updateProductStatusValidation = [
         .isInt({ min: 1 })
         .withMessage("Invalid product ID."),
 
-    body("is_available")
+    body("is_active")
         .isBoolean()
-        .withMessage("is_available must be true or false.")
+        .withMessage("is_active must be true or false.")
 
 ];
 

@@ -28,10 +28,10 @@ const updateProduct = async (id, product) => {
     return await productRepository.updateProduct(id, product);
 };
 
-const updateProductStatus = async (id, isAvailable) => {
+const updateProductStatus = async (id, isActive) => {
     return await productRepository.updateProductStatus(
         id,
-        isAvailable
+        isActive
     );
 };
 
