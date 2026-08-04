@@ -192,6 +192,22 @@ const getProductIngredients = asyncHandler(async (req, res) => {
 
 });
 
+const getProductPairings = asyncHandler(async (req, res) => {
+
+    const pairings = await productService.getProductPairings(
+        req.params.id
+    );
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        "Product pairings fetched successfully.",
+        pairings
+    );
+
+});
+
 const updateProductIngredients = asyncHandler(async (req, res) => {
 
     const errors = validationResult(req);
@@ -222,6 +238,36 @@ const updateProductIngredients = asyncHandler(async (req, res) => {
 
 });
 
+const updateProductPairings = asyncHandler(async (req, res) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+        return sendResponse(
+            res,
+            400,
+            false,
+            MESSAGES.COMMON.VALIDATION_FAILED,
+            errors.array()
+        );
+
+    }
+
+    await productService.updateProductPairings(
+        req.params.id,
+        req.body.paired_products
+    );
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        "Product pairings updated successfully."
+    );
+
+});
+
 module.exports = {
     getAllProducts,
     getProductById,
@@ -232,5 +278,7 @@ module.exports = {
     updateProduct,
     updateProductStatus,
     getProductIngredients,
-    updateProductIngredients
+    updateProductIngredients,
+    getProductPairings,
+    updateProductPairings
 };

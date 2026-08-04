@@ -279,6 +279,74 @@ const updateProductIngredients = async (
 
 };
 
+const getProductPairings = async (productId) => {
+
+    const [rows] = await db.query(
+        `
+        SELECT
+            p.id,
+            p.name,
+            p.price,
+            p.image
+        FROM product_pairings pp
+        JOIN products p
+            ON pp.paired_product_id = p.id
+        WHERE
+            pp.product_id = ?
+            AND p.is_active = TRUE
+        ORDER BY p.name
+        `,
+        [productId]
+    );
+
+    return rows;
+
+};
+
+const updateProductPairings = async (
+    productId,
+    pairedProducts
+) => {
+
+    return withTransaction(async (connection) => {
+
+        await connection.query(
+            `
+            DELETE FROM product_pairings
+            WHERE product_id = ?
+            `,
+            [productId]
+        );
+
+        for (const pairedProductId of pairedProducts) {
+
+            if (pairedProductId == productId) {
+                continue;
+            }
+
+            await connection.query(
+                `
+                INSERT INTO product_pairings
+                (
+                    product_id,
+                    paired_product_id
+                )
+                VALUES (?, ?)
+                `,
+                [
+                    productId,
+                    pairedProductId
+                ]
+            );
+
+        }
+
+        return true;
+
+    });
+
+};
+
 module.exports = {
     getAllProducts,
     getProductById,
@@ -289,5 +357,7 @@ module.exports = {
     updateProduct,
     updateProductStatus,
     getProductIngredients,
-    updateProductIngredients
+    updateProductIngredients,
+    getProductPairings,
+    updateProductPairings
 };

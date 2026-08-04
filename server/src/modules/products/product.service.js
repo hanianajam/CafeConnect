@@ -53,6 +53,24 @@ const updateProductIngredients = async (
 
 };
 
+const getProductPairings = async (productId) => {
+
+    return await productRepository.getProductPairings(productId);
+
+};
+
+const updateProductPairings = async (
+    productId,
+    pairedProducts
+) => {
+
+    return await productRepository.updateProductPairings(
+        productId,
+        pairedProducts
+    );
+
+};
+
 module.exports = {
     getAllProducts,
     getProductById,
@@ -63,5 +81,7 @@ module.exports = {
     updateProduct,
     updateProductStatus,
     getProductIngredients,
-    updateProductIngredients
+    updateProductIngredients,
+    getProductPairings,
+    updateProductPairings
 };

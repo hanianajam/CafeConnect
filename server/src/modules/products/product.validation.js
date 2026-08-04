@@ -122,6 +122,22 @@ const updateProductIngredientsValidation = [
 
 ];
 
+const updateProductPairingsValidation = [
+
+    param("id")
+        .isInt({ min: 1 })
+        .withMessage("Invalid product ID."),
+
+    body("paired_products")
+        .isArray()
+        .withMessage("paired_products must be an array."),
+
+    body("paired_products.*")
+        .isInt({ min: 1 })
+        .withMessage("Each paired product must be a valid product ID.")
+
+];
+
 module.exports = {
     createProductValidation,
     updateProductValidation,
@@ -130,5 +146,7 @@ module.exports = {
     getProductsByCategoryValidation,
     searchProductsValidation,
     getProductIngredientsValidation,
-    updateProductIngredientsValidation
+    updateProductIngredientsValidation,
+    updateProductPairingsValidation
+
 };

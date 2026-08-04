@@ -11,7 +11,8 @@ const {
     getProductsByCategoryValidation,
     searchProductsValidation,
     getProductIngredientsValidation,
-    updateProductIngredientsValidation
+    updateProductIngredientsValidation,
+    updateProductPairingsValidation
 } = require("./product.validation");
 
 const authenticate = require("../../middleware/auth.middleware");
@@ -84,7 +85,7 @@ router.patch(
 
 /*
 |--------------------------------------------------------------------------
-| Product Ingredient Routes 
+| Product Ingredients
 |--------------------------------------------------------------------------
 */
 
@@ -100,6 +101,26 @@ router.put(
     authorize("admin", "manager"),
     updateProductIngredientsValidation,
     productController.updateProductIngredients
+);
+
+/*
+|--------------------------------------------------------------------------
+| Product Pairings 
+|--------------------------------------------------------------------------
+*/
+
+router.get(
+    "/:id/pairings",
+    getProductByIdValidation,
+    productController.getProductPairings
+);
+
+router.put(
+    "/:id/pairings",
+    authenticate,
+    authorize("admin"),
+    updateProductPairingsValidation,
+    productController.updateProductPairings
 );
 
 module.exports = router;
