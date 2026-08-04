@@ -101,9 +101,9 @@ CafeConnect/
 
 - [x] Project planning
 - [x] Database design
-- [ ] Backend API
-- [ ] Authentication
-- [ ] Customer ordering
+- [x] Backend API
+- [x] Authentication
+- [x] Customer ordering
 - [ ] Payment system
 - [ ] Kitchen dashboard
 - [ ] Admin dashboard
