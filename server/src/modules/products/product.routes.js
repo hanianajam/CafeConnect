@@ -9,7 +9,9 @@ const {
     updateProductStatusValidation,
     getProductByIdValidation,
     getProductsByCategoryValidation,
-    searchProductsValidation
+    searchProductsValidation,
+    getProductIngredientsValidation,
+    updateProductIngredientsValidation
 } = require("./product.validation");
 
 const authenticate = require("../../middleware/auth.middleware");
@@ -78,6 +80,26 @@ router.patch(
     authorize(USER_ROLES.ADMIN),
     updateProductStatusValidation,
     productController.updateProductStatus
+);
+
+/*
+|--------------------------------------------------------------------------
+| Product Ingredient Routes 
+|--------------------------------------------------------------------------
+*/
+
+router.get(
+    "/:id/ingredients",
+    getProductIngredientsValidation,
+    productController.getProductIngredients
+);
+
+router.put(
+    "/:id/ingredients",
+    authenticate,
+    authorize("admin", "manager"),
+    updateProductIngredientsValidation,
+    productController.updateProductIngredients
 );
 
 module.exports = router;

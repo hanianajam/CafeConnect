@@ -21,7 +21,9 @@ const MESSAGES = {
     CREATED: "Product created successfully.",
     UPDATED: "Product updated successfully.",
     STATUS_UPDATED: "Product status updated successfully.",
-    NOT_FOUND: "Product not found."
+    NOT_FOUND: "Product not found.",
+    INGREDIENTS_FETCHED: "Product ingredients fetched successfully.",
+    INGREDIENTS_UPDATED: "Product ingredients updated successfully."
     },
 
     COMMON: {

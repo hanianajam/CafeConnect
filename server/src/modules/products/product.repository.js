@@ -1,4 +1,5 @@
 const db = require("../../config/db");
+const withTransaction = require("../../utils/transaction");
 
 const getAllProducts = async () => {
 
@@ -217,6 +218,67 @@ const updateProductStatus = async (id, is_active) => {
 
 };
 
+const getProductIngredients = async (productId) => {
+
+    const [rows] = await db.query(
+        `
+        SELECT
+            i.id,
+            i.name,
+            i.is_allergen
+        FROM product_ingredients pi
+        JOIN ingredients i
+            ON pi.ingredient_id = i.id
+        WHERE pi.product_id = ?
+        ORDER BY i.name
+        `,
+        [productId]
+    );
+
+    return rows;
+
+};
+
+const updateProductIngredients = async (
+    productId,
+    ingredientIds
+) => {
+
+    return withTransaction(async (connection) => {
+
+        await connection.query(
+            `
+            DELETE FROM product_ingredients
+            WHERE product_id = ?
+            `,
+            [productId]
+        );
+
+        for (const ingredientId of ingredientIds) {
+
+            await connection.query(
+                `
+                INSERT INTO product_ingredients
+                (
+                    product_id,
+                    ingredient_id
+                )
+                VALUES (?, ?)
+                `,
+                [
+                    productId,
+                    ingredientId
+                ]
+            );
+
+        }
+
+        return true;
+
+    });
+
+};
+
 module.exports = {
     getAllProducts,
     getProductById,
@@ -225,5 +287,7 @@ module.exports = {
     searchProducts,
     createProduct,
     updateProduct,
-    updateProductStatus
+    updateProductStatus,
+    getProductIngredients,
+    updateProductIngredients
 };

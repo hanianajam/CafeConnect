@@ -175,6 +175,53 @@ const updateProductStatus = asyncHandler(async (req, res) => {
 
 });
 
+const getProductIngredients = asyncHandler(async (req, res) => {
+
+    const ingredients =
+        await productService.getProductIngredients(
+            req.params.id
+        );
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        MESSAGES.PRODUCT.INGREDIENTS_FETCHED,
+        ingredients
+    );
+
+});
+
+const updateProductIngredients = asyncHandler(async (req, res) => {
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+
+        return sendResponse(
+            res,
+            400,
+            false,
+            MESSAGES.COMMON.VALIDATION_FAILED,
+            errors.array()
+        );
+
+    }
+
+    await productService.updateProductIngredients(
+        req.params.id,
+        req.body.ingredient_ids
+    );
+
+    return sendResponse(
+        res,
+        200,
+        true,
+        MESSAGES.PRODUCT.INGREDIENTS_UPDATED
+    );
+
+});
+
 module.exports = {
     getAllProducts,
     getProductById,
@@ -183,5 +230,7 @@ module.exports = {
     searchProducts,
     createProduct,
     updateProduct,
-    updateProductStatus
+    updateProductStatus,
+    getProductIngredients,
+    updateProductIngredients
 };

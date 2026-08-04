@@ -98,11 +98,37 @@ const searchProductsValidation = [
 
 ];
 
+const getProductIngredientsValidation = [
+
+    param("id")
+        .isInt({ min: 1 })
+        .withMessage("Invalid product ID.")
+
+];
+
+const updateProductIngredientsValidation = [
+
+    param("id")
+        .isInt({ min: 1 })
+        .withMessage("Invalid product ID."),
+
+    body("ingredient_ids")
+        .isArray({ min: 1 })
+        .withMessage("ingredient_ids must be a non-empty array."),
+
+    body("ingredient_ids.*")
+        .isInt({ min: 1 })
+        .withMessage("Each ingredient ID must be a positive integer.")
+
+];
+
 module.exports = {
     createProductValidation,
     updateProductValidation,
     updateProductStatusValidation,
     getProductByIdValidation,
     getProductsByCategoryValidation,
-    searchProductsValidation
+    searchProductsValidation,
+    getProductIngredientsValidation,
+    updateProductIngredientsValidation
 };
