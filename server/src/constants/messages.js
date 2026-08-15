@@ -62,7 +62,15 @@ const MESSAGES = {
     CREATED: "Ingredient created successfully.",
     UPDATED: "Ingredient updated successfully.",
     NOT_FOUND: "Ingredient not found."
+    },
+
+    PAYMENT: {
+    FETCHED_ALL: "Payments fetched successfully.",
+    FETCHED: "Payment fetched successfully.",
+    STATUS_UPDATED: "Payment status updated successfully.",
+    NOT_FOUND: "Payment not found."
     }
+
 };
 
 module.exports = MESSAGES;

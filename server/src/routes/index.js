@@ -11,6 +11,7 @@ const orderRoutes = require("../modules/orders/order.routes");
 const dashboardRoutes = require("../modules/dashboard/dashboard.routes");
 const ingredientRoutes = require("../modules/ingredients/ingredient.routes");
 const feedbackRoutes = require("../modules/feedback/feedback.routes");
+const paymentRoutes = require("../modules/payments/payment.routes");
 
 router.use("/health", healthRoutes);
 router.use("/auth", authRoutes);
@@ -21,5 +22,6 @@ router.use("/orders", orderRoutes);
 router.use("/dashboard", dashboardRoutes);
 router.use("/ingredients", ingredientRoutes);
 router.use("/feedback", feedbackRoutes);
+router.use("/payments", paymentRoutes);
 
 module.exports = router;
