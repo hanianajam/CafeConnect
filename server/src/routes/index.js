@@ -10,6 +10,7 @@ const promotionRoutes = require("../modules/promotions/promotion.routes");
 const orderRoutes = require("../modules/orders/order.routes");
 const dashboardRoutes = require("../modules/dashboard/dashboard.routes");
 const ingredientRoutes = require("../modules/ingredients/ingredient.routes");
+const feedbackRoutes = require("../modules/feedback/feedback.routes");
 
 router.use("/health", healthRoutes);
 router.use("/auth", authRoutes);
@@ -19,5 +20,6 @@ router.use("/promotions", promotionRoutes);
 router.use("/orders", orderRoutes);
 router.use("/dashboard", dashboardRoutes);
 router.use("/ingredients", ingredientRoutes);
+router.use("/feedback", feedbackRoutes);
 
 module.exports = router;
