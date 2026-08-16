@@ -6,10 +6,12 @@ const authController = require("./auth.controller");
 const { loginValidation } = require("./auth.validation");
 
 const authenticate = require("../../middleware/auth.middleware");
+const validate = require("../../middleware/validation.middleware");
 
 router.post(
     "/login",
     loginValidation,
+    validate,
     authController.login
 );
 
