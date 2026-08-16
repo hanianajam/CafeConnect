@@ -56,6 +56,14 @@ const MESSAGES = {
     TOP_PRODUCTS_FETCHED: "Top products fetched successfully."
     },
 
+    FEEDBACK: {
+    FETCHED_ALL: "Feedback fetched successfully.",
+    FETCHED: "Feedback fetched successfully.",
+    CREATED: "Feedback submitted successfully.",
+    DELETED: "Feedback deleted successfully.",
+    NOT_FOUND: "Feedback not found."
+    },
+
     INGREDIENT: {
     FETCHED_ALL: "Ingredients fetched successfully.",
     FETCHED: "Ingredient fetched successfully.",

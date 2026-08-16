@@ -1,8 +1,9 @@
 const feedbackService = require("./feedback.service");
+
 const sendResponse = require("../../utils/response");
 const asyncHandler = require("../../utils/asyncHandler");
-const { validationResult } = require("express-validator");
 const MESSAGES = require("../../constants/messages");
+
 
 const getAllFeedback = asyncHandler(async (req, res) => {
 
@@ -12,11 +13,12 @@ const getAllFeedback = asyncHandler(async (req, res) => {
         res,
         200,
         true,
-        "Feedback fetched successfully.",
+        MESSAGES.FEEDBACK.FETCHED_ALL,
         feedback
     );
 
 });
+
 
 const getFeedbackById = asyncHandler(async (req, res) => {
 
@@ -30,7 +32,7 @@ const getFeedbackById = asyncHandler(async (req, res) => {
             res,
             404,
             false,
-            "Feedback not found."
+            MESSAGES.FEEDBACK.NOT_FOUND
         );
 
     }
@@ -39,27 +41,14 @@ const getFeedbackById = asyncHandler(async (req, res) => {
         res,
         200,
         true,
-        "Feedback fetched successfully.",
+        MESSAGES.FEEDBACK.FETCHED,
         feedback
     );
 
 });
 
+
 const createFeedback = asyncHandler(async (req, res) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
 
     const id = await feedbackService.createFeedback(
         req.body
@@ -69,27 +58,14 @@ const createFeedback = asyncHandler(async (req, res) => {
         res,
         201,
         true,
-        "Feedback submitted successfully.",
+        MESSAGES.FEEDBACK.CREATED,
         { id }
     );
 
 });
 
+
 const deleteFeedback = asyncHandler(async (req, res) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
 
     const deleted = await feedbackService.deleteFeedback(
         req.params.id
@@ -101,7 +77,7 @@ const deleteFeedback = asyncHandler(async (req, res) => {
             res,
             404,
             false,
-            "Feedback not found."
+            MESSAGES.FEEDBACK.NOT_FOUND
         );
 
     }
@@ -110,10 +86,11 @@ const deleteFeedback = asyncHandler(async (req, res) => {
         res,
         200,
         true,
-        "Feedback deleted successfully."
+        MESSAGES.FEEDBACK.DELETED
     );
 
 });
+
 
 module.exports = {
     getAllFeedback,

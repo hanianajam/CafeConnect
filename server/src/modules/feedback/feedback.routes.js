@@ -12,12 +12,14 @@ const {
 
 const authMiddleware = require("../../middleware/auth.middleware");
 const authorize = require("../../middleware/role.middleware");
+const validate = require("../../middleware/validation.middleware");
 
 
 // Customer
 router.post(
     "/",
     createFeedbackValidation,
+    validate,
     feedbackController.createFeedback
 );
 
@@ -30,19 +32,25 @@ router.get(
     feedbackController.getAllFeedback
 );
 
+
+// Admin
 router.get(
     "/:id",
     authMiddleware,
     authorize("admin"),
     getFeedbackByIdValidation,
+    validate,
     feedbackController.getFeedbackById
 );
 
+
+// Admin
 router.delete(
     "/:id",
     authMiddleware,
     authorize("admin"),
     deleteFeedbackValidation,
+    validate,
     feedbackController.deleteFeedback
 );
 

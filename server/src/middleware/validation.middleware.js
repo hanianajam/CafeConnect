@@ -1,18 +1,26 @@
 const { validationResult } = require("express-validator");
 
+const sendResponse = require("../utils/response");
+const MESSAGES = require("../constants/messages");
+
 const validate = (req, res, next) => {
 
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(400).json({
-            success: false,
-            message: errors.array()[0].msg,
-            data: null
-        });
+
+        return sendResponse(
+            res,
+            400,
+            false,
+            MESSAGES.COMMON.VALIDATION_FAILED,
+            errors.array()
+        );
+
     }
 
     next();
+
 };
 
 module.exports = validate;
