@@ -1,7 +1,6 @@
 const categoryService = require("./category.service");
 const sendResponse = require("../../utils/response");
 const asyncHandler = require("../../utils/asyncHandler");
-const { validationResult } = require("express-validator");
 const MESSAGES = require("../../constants/messages");
 
 const getAllCategories = asyncHandler(async (req, res) => {
@@ -43,18 +42,6 @@ const getCategoryById = asyncHandler(async (req, res) => {
 
 const createCategory = asyncHandler(async (req, res) => {
 
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-    }
-
     const id = await categoryService.createCategory(req.body);
 
     return sendResponse(
@@ -68,18 +55,6 @@ const createCategory = asyncHandler(async (req, res) => {
 });
 
 const updateCategory = asyncHandler(async (req, res) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-    }
 
     await categoryService.updateCategory(
         req.params.id,

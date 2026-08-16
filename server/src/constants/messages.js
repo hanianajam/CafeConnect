@@ -12,7 +12,9 @@ const MESSAGES = {
         CREATED: "Category created successfully.",
         UPDATED: "Category updated successfully.",
         STATUS_UPDATED: "Category status updated successfully.",
-        NOT_FOUND: "Category not found."
+        NOT_FOUND: "Category not found.",
+        DUPLICATE: "Category with this name already exists."
+
     },
 
     PRODUCT: {
