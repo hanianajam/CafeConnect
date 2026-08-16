@@ -1,7 +1,6 @@
 const orderService = require("./order.service");
 const sendResponse = require("../../utils/response");
 const asyncHandler = require("../../utils/asyncHandler");
-const { validationResult } = require("express-validator");
 const MESSAGES = require("../../constants/messages");
 
 const getAllOrders = asyncHandler(async (req, res) => {
@@ -45,20 +44,6 @@ const getOrderById = asyncHandler(async (req, res) => {
 
 const createOrder = asyncHandler(async (req, res) => {
 
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
-
     const order = await orderService.createOrder(req.body);
 
     return sendResponse(
@@ -72,20 +57,6 @@ const createOrder = asyncHandler(async (req, res) => {
 });
 
 const updateOrderStatus = asyncHandler(async (req, res) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
 
     await orderService.updateOrderStatus(
         req.params.id,

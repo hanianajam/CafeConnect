@@ -1,7 +1,6 @@
 const productService = require("./product.service");
 const sendResponse = require("../../utils/response");
 const asyncHandler = require("../../utils/asyncHandler");
-const { validationResult } = require("express-validator");
 const MESSAGES = require("../../constants/messages");
 
 const getAllProducts = asyncHandler(async (req, res) => {
@@ -89,20 +88,6 @@ const searchProducts = asyncHandler(async (req, res) => {
 
 const createProduct = asyncHandler(async (req, res) => {
 
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
-
     const id = await productService.createProduct(req.body);
 
     return sendResponse(
@@ -116,20 +101,6 @@ const createProduct = asyncHandler(async (req, res) => {
 });
 
 const updateProduct = asyncHandler(async (req, res) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
 
     await productService.updateProduct(
         req.params.id,
@@ -146,20 +117,6 @@ const updateProduct = asyncHandler(async (req, res) => {
 });
 
 const updateProductStatus = asyncHandler(async (req, res) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
 
     await productService.updateProductStatus(
         req.params.id,
@@ -210,20 +167,6 @@ const getProductPairings = asyncHandler(async (req, res) => {
 
 const updateProductIngredients = asyncHandler(async (req, res) => {
 
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
-
     await productService.updateProductIngredients(
         req.params.id,
         req.body.ingredient_ids
@@ -239,20 +182,6 @@ const updateProductIngredients = asyncHandler(async (req, res) => {
 });
 
 const updateProductPairings = asyncHandler(async (req, res) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
 
     await productService.updateProductPairings(
         req.params.id,

@@ -11,7 +11,10 @@ const {
 
 const authenticate = require("../../middleware/auth.middleware");
 const authorize = require("../../middleware/role.middleware");
+const validate = require("../../middleware/validation.middleware");
+
 const USER_ROLES = require("../../constants/userRoles");
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +25,10 @@ const USER_ROLES = require("../../constants/userRoles");
 router.post(
     "/",
     createOrderValidation,
+    validate,
     orderController.createOrder
 );
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +47,7 @@ router.get(
     orderController.getAllOrders
 );
 
+
 router.get(
     "/:id",
     authenticate,
@@ -51,8 +57,10 @@ router.get(
         USER_ROLES.KITCHEN
     ),
     getOrderByIdValidation,
+    validate,
     orderController.getOrderById
 );
+
 
 router.patch(
     "/:id/status",
@@ -62,7 +70,9 @@ router.patch(
         USER_ROLES.CASHIER
     ),
     updateOrderStatusValidation,
+    validate,
     orderController.updateOrderStatus
 );
+
 
 module.exports = router;

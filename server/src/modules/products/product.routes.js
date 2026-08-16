@@ -17,6 +17,7 @@ const {
 
 const authenticate = require("../../middleware/auth.middleware");
 const authorize = require("../../middleware/role.middleware");
+const validate = require("../../middleware/validation.middleware");
 const USER_ROLES = require("../../constants/userRoles");
 
 /*
@@ -38,18 +39,21 @@ router.get(
 router.get(
     "/search",
     searchProductsValidation,
+    validate,
     productController.searchProducts
 );
 
 router.get(
     "/category/:categoryId",
     getProductsByCategoryValidation,
+    validate,
     productController.getProductsByCategory
 );
 
 router.get(
     "/:id",
     getProductByIdValidation,
+    validate,
     productController.getProductById
 );
 
@@ -64,6 +68,7 @@ router.post(
     authenticate,
     authorize(USER_ROLES.ADMIN),
     createProductValidation,
+    validate,
     productController.createProduct
 );
 
@@ -72,6 +77,7 @@ router.put(
     authenticate,
     authorize(USER_ROLES.ADMIN),
     updateProductValidation,
+    validate,
     productController.updateProduct
 );
 
@@ -80,6 +86,7 @@ router.patch(
     authenticate,
     authorize(USER_ROLES.ADMIN),
     updateProductStatusValidation,
+    validate,
     productController.updateProductStatus
 );
 
@@ -92,6 +99,7 @@ router.patch(
 router.get(
     "/:id/ingredients",
     getProductIngredientsValidation,
+    validate,
     productController.getProductIngredients
 );
 
@@ -100,6 +108,7 @@ router.put(
     authenticate,
     authorize("admin", "manager"),
     updateProductIngredientsValidation,
+    validate,
     productController.updateProductIngredients
 );
 
@@ -112,6 +121,7 @@ router.put(
 router.get(
     "/:id/pairings",
     getProductByIdValidation,
+    validate,
     productController.getProductPairings
 );
 
@@ -120,6 +130,7 @@ router.put(
     authenticate,
     authorize("admin"),
     updateProductPairingsValidation,
+    validate,
     productController.updateProductPairings
 );
 

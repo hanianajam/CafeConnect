@@ -1,7 +1,6 @@
 const ingredientService = require("./ingredient.service");
 const sendResponse = require("../../utils/response");
 const asyncHandler = require("../../utils/asyncHandler");
-const { validationResult } = require("express-validator");
 const MESSAGES = require("../../constants/messages");
 
 const getAllIngredients = asyncHandler(async (req, res) => {
@@ -20,7 +19,9 @@ const getAllIngredients = asyncHandler(async (req, res) => {
 
 const getIngredientById = asyncHandler(async (req, res) => {
 
-    const ingredient = await ingredientService.getIngredientById(req.params.id);
+    const ingredient = await ingredientService.getIngredientById(
+        req.params.id
+    );
 
     if (!ingredient) {
 
@@ -45,21 +46,9 @@ const getIngredientById = asyncHandler(async (req, res) => {
 
 const createIngredient = asyncHandler(async (req, res) => {
 
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
-
-    const ingredient = await ingredientService.createIngredient(req.body);
+    const ingredient = await ingredientService.createIngredient(
+        req.body
+    );
 
     return sendResponse(
         res,
@@ -72,20 +61,6 @@ const createIngredient = asyncHandler(async (req, res) => {
 });
 
 const updateIngredient = asyncHandler(async (req, res) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
 
     const ingredient = await ingredientService.updateIngredient(
         req.params.id,

@@ -1,7 +1,6 @@
 const promotionService = require("./promotion.service");
 const sendResponse = require("../../utils/response");
 const asyncHandler = require("../../utils/asyncHandler");
-const { validationResult } = require("express-validator");
 const MESSAGES = require("../../constants/messages");
 
 const getAllPromotions = asyncHandler(async (req, res) => {
@@ -45,20 +44,6 @@ const getPromotionById = asyncHandler(async (req, res) => {
 
 const createPromotion = asyncHandler(async (req, res) => {
 
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
-
     const id = await promotionService.createPromotion(req.body);
 
     return sendResponse(
@@ -72,20 +57,6 @@ const createPromotion = asyncHandler(async (req, res) => {
 });
 
 const updatePromotion = asyncHandler(async (req, res) => {
-
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-
-        return sendResponse(
-            res,
-            400,
-            false,
-            MESSAGES.COMMON.VALIDATION_FAILED,
-            errors.array()
-        );
-
-    }
 
     await promotionService.updatePromotion(
         req.params.id,

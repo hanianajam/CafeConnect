@@ -71,7 +71,8 @@ const MESSAGES = {
     FETCHED: "Ingredient fetched successfully.",
     CREATED: "Ingredient created successfully.",
     UPDATED: "Ingredient updated successfully.",
-    NOT_FOUND: "Ingredient not found."
+    NOT_FOUND: "Ingredient not found.",
+    ALREADY_EXISTS: "Ingredient already exists.",
     },
 
     PAYMENT: {
