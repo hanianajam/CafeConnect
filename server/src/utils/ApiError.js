@@ -1,1 +1,0 @@
-throw new ApiError(404, MESSAGES.CATEGORY_NOT_FOUND);
